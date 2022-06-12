@@ -5,13 +5,13 @@ import javafx.scene.image.Image;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    int id;
-    String name;
-    String password;
-    String ip;
-    Image userIcon;
-    boolean isOnline;
-    int establishConnectionPort;
+    public int id;
+    public String name;
+    public String password;
+    public String ip;
+    public Image userIcon;
+    public boolean isOnline;
+    public int establishConnectionPort;
 
     public User(int id, String name, String password, String ip, Image userIcon, boolean isOnline, int establishConnectionPort) {
         this.id = id;
