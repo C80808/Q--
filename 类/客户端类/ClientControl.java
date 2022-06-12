@@ -16,6 +16,7 @@ import java.util.List;
 
 public class ClientControl {
     String ip="";//服务器IP地址
+    int port=10086;//默认端口
     ArrayList<User>list=new ArrayList<User>();
 
     public boolean loginRequest(User user) throws IOException {//登录请求
@@ -23,8 +24,8 @@ public class ClientControl {
         message.sourceUser.setId(user.getId());
         message.sourceUser.setPassword(user.getPassword());
         message.sourceUser.setIp(InetAddress.getLocalHost().getHostAddress());
-        message.sourceUser.setEstablishConnectionPort(10086);
-        message.sendMessage(message,ip,10086);
+        message.sourceUser.setEstablishConnectionPort(port);
+        message.sendMessage(message,ip,port);
         return true;
     }
 
@@ -33,8 +34,8 @@ public class ClientControl {
         message.sourceUser.setId(user.getId());
         message.sourceUser.setPassword(user.getPassword());
         message.sourceUser.setIp(InetAddress.getLocalHost().getHostAddress());
-        message.sourceUser.setEstablishConnectionPort(10086);
-        message.sendMessage(message,ip,10086);
+        message.sourceUser.setEstablishConnectionPort(port);
+        message.sendMessage(message,ip,port);
         return true;
     }
 
@@ -48,7 +49,7 @@ public class ClientControl {
         list.add(user);
         Message message=new Message();
         message.DestinationUser.setId(user.getId());
-        message.sendMessage(message, ip,10086);
+        message.sendMessage(message, ip,port);
 
         return true;
     }
@@ -57,7 +58,7 @@ public class ClientControl {
         list.remove(user);
         Message message=new Message();
         message.DestinationUser.setId(user.getId());
-        message.sendMessage(message, ip,10086);
+        message.sendMessage(message, ip,port);
 
         return true;
     }
@@ -91,8 +92,13 @@ public class ClientControl {
         return (T) "查询失败";
     }
 
-    public void userLoginInit(User user){//用户登录初始化
-
+    public void userLoginInit(User user) throws IOException, ClassNotFoundException {//用户登录初始化
+        while (getLoginStatus(user)==-1);
+        receivingRequest();
+        Message message=new Message();
+        message.messageType="登录成功";
+        message.sendMessage(message,ip,port);
+        message.reciveMessage(port);
 
     }
 
@@ -107,7 +113,7 @@ public class ClientControl {
 
 
         try {
-            Socket s=new Socket(DestinationUser.getIp(),10086);
+            Socket s=new Socket(DestinationUser.getIp(),port);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,7 +121,7 @@ public class ClientControl {
 
     public void receivingRequest(){//持久性接收其他客户端的连接请求
         try {
-            ServerSocket ss=new ServerSocket(10086);
+            ServerSocket ss=new ServerSocket(port);
             connectionEstablish(ss);
 
         } catch (IOException e) {
