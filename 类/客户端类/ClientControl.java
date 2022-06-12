@@ -18,23 +18,23 @@ public class ClientControl {
     String ip="";//服务器IP地址
     ArrayList<User>list=new ArrayList<User>();
 
-    public boolean loginRequest(User UserID,User password) throws UnknownHostException {//登录请求
+    public boolean loginRequest(User user) throws IOException {//登录请求
         Message message=new Message();
-        message.sourceUser.id=UserID;
-        message.sourceUser.password=password;
-        message.sourceUser.ip= InetAddress.getLocalHost().getHostAddress();
-        message.sourceUser.establishConnectionPort=10086;
-        message.sendMessage(message,ip);
+        message.sourceUser.setId(user.getId());
+        message.sourceUser.setPassword(user.getPassword());
+        message.sourceUser.setIp(InetAddress.getLocalHost().getHostAddress());
+        message.sourceUser.setEstablishConnectionPort(10086);
+        message.sendMessage(message,ip,10086);
         return true;
     }
 
-    public boolean registerRequest(User user) throws UnknownHostException {//注册请求
+    public boolean registerRequest(User user) throws IOException {//注册请求
         Message message=new Message();
-        message.sourceUser.id=user.getId();
-        message.sourceUser.password=user.getPassword();
-        message.sourceUser.ip= InetAddress.getLocalHost().getHostAddress();
-        message.sourceUser.establishConnectionPort=10086;
-        message.sendMessage(message,ip);
+        message.sourceUser.setId(user.getId());
+        message.sourceUser.setPassword(user.getPassword());
+        message.sourceUser.setIp(InetAddress.getLocalHost().getHostAddress());
+        message.sourceUser.setEstablishConnectionPort(10086);
+        message.sendMessage(message,ip,10086);
         return true;
     }
 
@@ -44,20 +44,20 @@ public class ClientControl {
         return list;
     }
 
-    public boolean addFrineds(User user){//添加好友
+    public boolean addFrineds(User user) throws IOException {//添加好友
         list.add(user);
         Message message=new Message();
-        message.DestinationUser.id=user.getId();
-        message.sendMessage(message, ip);
+        message.DestinationUser.setId(user.getId());
+        message.sendMessage(message, ip,10086);
 
         return true;
     }
 
-    public boolean deleteFrineds(User user){//删除好友
+    public boolean deleteFrineds(User user) throws IOException {//删除好友
         list.remove(user);
         Message message=new Message();
-        message.DestinationUser.id=user.getId();
-        message.sendMessage(message, ip);
+        message.DestinationUser.setId(user.getId());
+        message.sendMessage(message, ip,10086);
 
         return true;
     }
