@@ -38,4 +38,14 @@ public class Message implements Serializable {
         return 1;
     }
 
+    public Message(String messageType, User sourceUser, Byte data, int sourcePort, int sourceIP, User destinationUser, Date sendDate, boolean issuccess) {
+        this.messageType = messageType;
+        this.sourceUser = sourceUser;
+        Data = data;
+        this.sourcePort = sourcePort;
+        this.sourceIP = sourceIP;
+        DestinationUser = destinationUser;
+        this.sendDate = sendDate;
+        this.issuccess = issuccess;
+    }
 }
